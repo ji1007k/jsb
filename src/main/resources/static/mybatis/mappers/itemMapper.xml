@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.please.work.items.mapper.ItemMapper">
+
+    <!-- id로 Item 조회 => 간단한 쿼리는 어노테이션 사용. -->
+    <!--<select id="findById" parameterType="long" resultType="com.please.work.items.dto.Item">
+        SELECT id, name, description, price
+        FROM items
+        WHERE id = #{id}
+    </select>-->
+
+<!--    TODO 썸네일 저장-->
+    <!-- Item 추가 -->
+    <!-- useGeneratedKeys="true" keyProperty="id" : 자동 생성된 키를 사용하고, keyProperty에 지정된 프로퍼티에 저장 -->
+    <insert id="insertItem"
+            parameterType="com.please.work.items.dto.Item"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO items (name
+            , description
+            , price
+            , category
+            , status
+            , created_date
+            , created_by
+        )
+        VALUES (#{name}
+            , #{description}
+            , #{price}
+            , #{category}
+            , #{status}
+            , CURRENT_TIMESTAMP
+            , #{createdBy}
+            )
+    </insert>
+
+    <!-- TODO Item 업데이트 -->
+    <!-- useGeneratedKeys="true" keyProperty="id" : 자동 생성된 키를 사용하고, keyProperty에 지정된 프로퍼티에 저장 -->
+    <update id="updateItem"
+            parameterType="com.please.work.items.dto.Item"
+            useGeneratedKeys="true" keyProperty="id">
+        UPDATE items
+        SET name = #{name},
+            description = #{description},
+            price = #{price}
+        WHERE id = #{id}
+    </update>
+
+    <!-- TODO Item 삭제 -->
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM items WHERE id = #{id}
+    </delete>
+
+</mapper>
