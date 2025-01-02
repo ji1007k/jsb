@@ -12,7 +12,7 @@ export default class ItemList {
     init() {
         console.log("ItemList initialized");
         // fetch를 사용하여 static 폴더의 HTML 파일을 불러오기
-        fetch('/html/items/item.html')  // static 파일 경로에서 html 파일 요청
+        fetch('/static/html/items/item.html')  // static 파일 경로에서 html 파일 요청
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to load HTML file');

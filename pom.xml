@@ -13,6 +13,7 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<name>work</name>
 	<description>work</description>
+	<packaging>war</packaging>
 	<url/>
 	<licenses>
 		<license/>
@@ -112,13 +113,12 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<!-- 모든 파일을 target/classes 폴더로 복사 -->
+							<!-- 모든 파일을 target/classes/webapp 폴더로 복사 -->
 							<outputDirectory>${project.build.directory}/classes</outputDirectory>
 							<resources>
 								<resource>
 									<!-- src/main/webapp 폴더 전체를 복사 -->
 									<directory>src/main/webapp</directory>
-<!--									<directory>src/main/webapp/WEB-INF/jsp</directory>-->
 									<filtering>false</filtering>
 								</resource>
 							</resources>
