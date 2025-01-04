@@ -1,5 +1,7 @@
 package com.please.work.items.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.please.work.common.utils.FileUploadUtil;
 import com.please.work.items.dto.Item;
 import com.please.work.items.service.ItemService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,10 +10,16 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Slf4j
@@ -68,12 +76,32 @@ public class ItemController {
         return ResponseEntity.ok(result);
     }
 
-    // TODO
     @Operation(summary = "아이템 업데이트", description = "아이템을 업데이트합니다.")
-    @PutMapping("/updateItem")
-    public ResponseEntity<Item> updateItem(@RequestBody Item item) {
-        Item result = itemService.updateItem(item);
-        return ResponseEntity.ok(result);
+    @PutMapping("/{id}")
+    public ResponseEntity<Item> updateItem(@PathVariable String id,
+                                           @RequestParam("item") String itemJson,
+                                           @RequestParam(value = "file", required = false) MultipartFile file) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Item item = objectMapper.readValue(itemJson, Item.class);
+            item.setId(Long.parseLong(id));
+
+            if (file != null && !file.isEmpty()) {
+                // TODO 기존 이미지 삭제
+                //  ...
+
+                // 파일 업로드 후 경로를 imageUrl에 설정
+                String filePath = FileUploadUtil.uploadFile(file);
+                item.setImageUrl(filePath); // imageUrl 필드에 파일 경로 설정
+            }
+
+            Item updatedItem = itemService.updateItem(item);
+            return ResponseEntity.ok(updatedItem);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     // TODO
