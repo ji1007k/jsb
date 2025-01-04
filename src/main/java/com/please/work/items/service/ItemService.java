@@ -1,9 +1,13 @@
 package com.please.work.items.service;
 
+import com.please.work.common.utils.FileUploadUtil;
 import com.please.work.items.dto.Item;
 import com.please.work.items.mapper.ItemMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -32,8 +36,9 @@ public class ItemService {
     }
 
     // Item 업데이트
-    public Item updateItem(Item item) {
-        itemMapper.updateItem(item);    // 업데이트 후 자동으로 생성된 id가 item에 담김
+    @Transactional
+    public Item updateItem(Item item) throws IOException {
+        itemMapper.updateItem(item);
         return itemMapper.findById(item.getId());
     }
 
@@ -41,4 +46,5 @@ public class ItemService {
     public int deleteById(Long id) {
         return itemMapper.deleteById(id);
     }
+
 }

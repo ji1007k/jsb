@@ -1,6 +1,110 @@
+/* 주아체 폰트를 body에 적용 */
+body {
+    font-family: 'Noto Sans', 'Noto Sans KR', sans-serif;
+}
+
+p {
+    margin-bottom: 0;
+}
+
 .body {
     background-color: #f0f0f0;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+}
+
+/*********************************
+ * items
+ */
+/* 아이템 카드 스타일 */
+.item-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    margin-bottom: 10px;
+}
+
+/* 아이템 이미지 스타일 */
+#item-card-list .item-image {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+}
+
+/* 아이템 정보는 오른쪽 */
+.item-info {
+    margin-left: 16px;
+    flex: 1;
+}
+
+/* 드랍 몬스터 컨테이너 */
+.monster-list {
+    margin-left: 10px;
+}
+
+.monster-card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.monster-card img {
+    width: 56px; /* 고정된 가로 크기 */
+    height: 56px; /* 고정된 세로 크기 */
+    object-fit: contain; /* 이미지 비율 유지 */
+}
+
+.monster-card small {
+    white-space: nowrap; /* 줄바꿈을 방지 */
+    overflow: hidden;
+    text-overflow: ellipsis; /* 텍스트가 넘칠 경우 "..."로 표시 */
+}
+
+/* 제목 스타일 */
+.section-title {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.btn-outline-primary, .btn-outline-secondary {
+    padding: 8px 12px;
+    margin-right: 8px;
+}
+
+@media (max-width: 768px) {
+    .item-card {
+        display: flex;
+        flex-direction: column; /* 아이템 정보와 몬스터 리스트가 세로로 나열되게 */
+    }
+
+    .monster-list {
+        margin-top: 30px; /* 드랍 몬스터 영역과 아이템 정보 사이에 여백 추가 */
+    }
+
+    .monster-list .row {
+        display: flex;
+        flex-direction: column; /* 세로로 나열되게 설정 */
+        align-items: center; /* 중앙 정렬 */
+    }
+
+    .monster-card {
+        margin-bottom: 15px; /* 각 몬스터 카드 사이에 여백 추가 */
+    }
+}
+
+.form-label {
+    white-space: nowrap;
+}
+
+.form-switch .form-check-input:hover {
+    cursor: pointer;
+}
+
+.form-switch .form-check-input {
+    width: 3em;
+    height: 1.5em;
 }

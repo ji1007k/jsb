@@ -3,7 +3,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.please.work.items.mapper.ItemMapper">
-
     <!-- id로 Item 조회 => 간단한 쿼리는 어노테이션 사용. -->
     <!--<select id="findById" parameterType="long" resultType="com.please.work.items.dto.Item">
         SELECT id, name, description, price
@@ -39,11 +38,31 @@
     <!-- useGeneratedKeys="true" keyProperty="id" : 자동 생성된 키를 사용하고, keyProperty에 지정된 프로퍼티에 저장 -->
     <update id="updateItem"
             parameterType="com.please.work.items.dto.Item"
-            useGeneratedKeys="true" keyProperty="id">
+            keyProperty="id">
         UPDATE items
-        SET name = #{name},
-            description = #{description},
-            price = #{price}
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="category != null">category = #{category},</if>
+            <if test="durability != null">durability = #{durability},</if>
+            <if test="destruction != null">destruction = #{destruction},</if>
+            <if test="weapon != null">weapon = #{weapon},</if>
+            <if test="hit != null">hit = #{hit},</if>
+            <if test="damage != null">damage = #{damage},</if>
+            <if test="job != null">job = #{job},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="strengthLimit != null">strength_limit = #{strengthLimit},</if>
+            <if test="agilityLimit != null">agility_limit = #{agilityLimit},</if>
+            <if test="intellectLimit != null">intellect_limit = #{intellectLimit},</if>
+            <if test="repairable != null">repairable = #{repairable},</if>
+            <if test="dropable != null">dropable = #{dropable},</if>
+            <if test="tradable != null">tradable = #{tradable},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="imageUrl != null">image_url = #{imageUrl},</if>
+            <if test="status != null">status = #{status},</if>
+            updated_date = CURRENT_TIMESTAMP,
+            updated_by = #{updatedBy}
+        </set>
         WHERE id = #{id}
     </update>
 
