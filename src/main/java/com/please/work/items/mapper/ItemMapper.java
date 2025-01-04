@@ -12,8 +12,8 @@ import java.util.List;
 public interface ItemMapper {
 
     // 모든 Item 조회
-    @Select("SELECT * FROM items")
-    List<Item> findAll();
+//    @Select("SELECT * FROM items ORDER BY id, category")
+    List<Item> findAll(@Param("category") String category);
 
     // Item 조회. @Param을 사용하여 파라미터 명시
     @Select("SELECT * FROM items WHERE id = #{id}")

@@ -1,5 +1,5 @@
 import {append, getFormData, setFormData} from '../utils/UIUtil.js';
-import { makeItemDtlHtml, makeItemUptHtml } from './ItemHtml.js';
+import {makeItemDtlHtml, makeItemFormHtml} from './ItemHtml.js';
 
 /**
  * 아이템 상세/수정
@@ -86,10 +86,17 @@ export default class ItemDetail {
         const data = this.data;
 
         const modalBody = this.modalArea.querySelector('.modal-body');
+        drawItemImg.bind(this)(modalBody);
         drawItemInfo.bind(this)(modalBody);
 
         this.MODAL.show();
 
+
+        function drawItemImg(modalBody) {
+            const img = modalBody.querySelector('.item-image img');
+            img.src = data.imageUrl;
+            img.alt = data.name;
+        }
 
         function drawItemInfo(modalBody) {
             const target = modalBody.querySelector('#item-details');
@@ -101,7 +108,7 @@ export default class ItemDetail {
 
             function makeItemInfoHtml() {
                 if (this.isEditMode) {
-                    const form = append(makeItemUptHtml(), target);
+                    const form = append(makeItemFormHtml(), target);
                     setFormData(data, form);
 
                 } else {
@@ -116,7 +123,7 @@ export default class ItemDetail {
     }
 
     saveData() {
-        const form = document.getElementById('edit-item');
+        const form = document.getElementById('item-form');
         const param = getFormData(form);
         // FormData 객체가 자동으로 multipart/form-data 형식으로 데이터를 인코딩
         const formData = new FormData();
@@ -141,9 +148,9 @@ export default class ItemDetail {
             this.initData();
         }).then(result => {
             console.log(result);
-            this.MODAL.hide();
         }).catch(error => {
             console.error('Error saving data:', error);
+            this.MODAL.hide();
         });
     }
 

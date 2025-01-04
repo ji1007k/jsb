@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
-public class FileUploadUtil {
+public class FileUtil {
 
     // 업로드할 파일을 저장할 디렉토리
     private static final String UPLOAD_DIR = "uploads/";
@@ -53,5 +53,14 @@ public class FileUploadUtil {
     // 파일이 유효한지 검사하는 메소드
     public static boolean isValidFile(MultipartFile file) {
         return file != null && !file.isEmpty() && isValidFileType(file);
+    }
+
+    // 파일을 삭제하는 메소드
+    public static void deleteFile(String filePath) {
+        try {
+            Files.deleteIfExists(Paths.get(filePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

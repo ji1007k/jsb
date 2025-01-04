@@ -1,7 +1,8 @@
 package com.please.work.items.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.please.work.common.utils.FileUploadUtil;
+import com.please.work.common.utils.FileUtil;
 import com.please.work.items.dto.Item;
 import com.please.work.items.service.ItemService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,14 +13,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 @Slf4j
@@ -40,9 +37,9 @@ public class ItemController {
 
     // 모든 아이템 조회
     @Operation(summary = "모든 아이템 조회", description = "모든 아이템을 조회합니다.")
-    @GetMapping("/")
-    public ResponseEntity<List<Item>> findAll() {
-        List<Item> items = itemService.findAll();
+    @GetMapping
+    public ResponseEntity<List<Item>> findAll(@RequestParam(required = false) String category) {
+        List<Item> items = itemService.findAll(category);
         return ResponseEntity.ok(items);
     }
 
@@ -70,10 +67,33 @@ public class ItemController {
             @Parameter(name = "createdBy", description = "등록자", example = "JIKIM")
     })
 //    @PatchMapping(value = "/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PostMapping("/insertItem")
-    public ResponseEntity<Item> insertItem(@RequestBody Item item) {
-        Item result = itemService.insertItem(item);
-        return ResponseEntity.ok(result);
+    @PostMapping("/")
+    public ResponseEntity<Item> insertItem(@RequestParam("item") String itemJson,
+                                           @RequestParam(value = "file", required = false) MultipartFile file) {
+
+        String filePath = "";
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Item item = objectMapper.readValue(itemJson, Item.class);
+
+            if (file != null && !file.isEmpty()) {
+                // TODO 기존 이미지 삭제
+                //  ...
+
+                // 파일 업로드 후 경로를 imageUrl에 설정
+                filePath = FileUtil.uploadFile(file);
+                item.setImageUrl(filePath); // imageUrl 필드에 파일 경로 설정
+            }
+
+            itemService.insertItem(item);
+            return ResponseEntity.ok(null);
+        } catch (JsonProcessingException e) {
+            FileUtil.deleteFile(filePath);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        } catch (Exception e) {
+            FileUtil.deleteFile(filePath);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     @Operation(summary = "아이템 업데이트", description = "아이템을 업데이트합니다.")
@@ -81,6 +101,8 @@ public class ItemController {
     public ResponseEntity<Item> updateItem(@PathVariable String id,
                                            @RequestParam("item") String itemJson,
                                            @RequestParam(value = "file", required = false) MultipartFile file) {
+
+        String filePath = "";
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             Item item = objectMapper.readValue(itemJson, Item.class);
@@ -91,15 +113,17 @@ public class ItemController {
                 //  ...
 
                 // 파일 업로드 후 경로를 imageUrl에 설정
-                String filePath = FileUploadUtil.uploadFile(file);
+                filePath = FileUtil.uploadFile(file);
                 item.setImageUrl(filePath); // imageUrl 필드에 파일 경로 설정
             }
 
             Item updatedItem = itemService.updateItem(item);
             return ResponseEntity.ok(updatedItem);
         } catch (IOException e) {
+            FileUtil.deleteFile(filePath);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         } catch (Exception e) {
+            FileUtil.deleteFile(filePath);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }

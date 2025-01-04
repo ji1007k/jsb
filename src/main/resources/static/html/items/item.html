@@ -1,17 +1,15 @@
 <!-- 아이템 상세 정보 카드 -->
-<form id="edit-item" name="edit-item" class="mb-0 text-white" enctype="multipart/form-data">
+<form id="item-form" name="item-form" class="mb-0 text-white" enctype="multipart/form-data">
     <div class="d-flex justify-content-center">
         <div class="w-100 d-flex flex-column align-items-center">
 
             <!-- 아이템 이미지 -->
-            <div class="text-center my-3 item-image position-relative" style="display: inline-block;">
-                <img src="https://homsuwixxppzxjkr.public.blob.vercel-storage.com/items/e6defa45-0a29-47cd-8cb5-10491eedab5e-TF4IoRs3Ftx7tVAX2MGWM0yt8PlhvE.png"
-                     alt="목도"
+            <div class="item-image text-center my-3 position-relative" style="display: inline-block;">
+                <img src=""
                      class="img-fluid"
-                     style="height: 70px; width: 70px; object-fit: contain;">
+                     style="">
                 <!-- 아이콘 형태의 라벨 -->
-                <label for="item-img-upload" class="btn btn-primary position-absolute d-flex align-items-center justify-content-center"
-                       style="bottom: 10px; right: 10px; width: 40px; height: 40px; border-radius: 50%;">
+                <label for="item-img-upload" id="item-img-upload-label" class="btn btn-primary position-absolute d-flex align-items-center justify-content-center">
                     <i class="bi bi-pencil"></i>
                 </label>
                 <input id="item-img-upload" name="item-img-upload" type="file" class="d-none">

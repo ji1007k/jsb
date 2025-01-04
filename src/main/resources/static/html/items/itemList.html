@@ -1,22 +1,26 @@
 <div id="item-list">
 
     <!-- 버튼 그룹 (무기, 방어구 등) -->
-    <div class="d-flex justify-content-center mb-4">
+    <div class="search-options d-flex justify-content-center mb-4">
         <div class="d-flex gap-2 justify-content-center">
-            <span class="badge d-flex p-2 align-items-center text-bg-primary rounded-pill">
-                <span class="px-1">무기</span>
-            </span>
-            <span class="badge d-flex p-2 align-items-center text-primary-emphasis bg-primary-subtle rounded-pill">
-                <span class="px-1">방어구</span>
-            </span>
-            <span class="badge d-flex p-2 align-items-center text-primary-emphasis bg-primary-subtle rounded-pill">
-                <span class="px-1">장신구</span>
-            </span>
+            <button class="badge-btn badge d-flex p-2 align-items-center text-bg-primary rounded-pill active">
+                무기
+            </button>
+            <button class="badge-btn badge d-flex p-2 align-items-center text-primary-emphasis bg-primary-subtle rounded-pill">
+                방어구
+            </button>
+            <button class="badge-btn badge d-flex p-2 align-items-center text-primary-emphasis bg-primary-subtle rounded-pill">
+                장신구
+            </button>
         </div>
-
     </div>
 
-    <div class="container py-5">
+    <div class="container py-1">
+        <div class="mt-2 fr gap-2 d-flex justify-content-end">
+            <div class="mb-2 d-flex">
+                <button class="btn btn-primary" id="item-add-btn">아이템 등록</button>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12" id="item-card-list">
 

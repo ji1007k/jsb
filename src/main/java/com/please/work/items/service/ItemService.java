@@ -1,11 +1,9 @@
 package com.please.work.items.service;
 
-import com.please.work.common.utils.FileUploadUtil;
 import com.please.work.items.dto.Item;
 import com.please.work.items.mapper.ItemMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,8 +18,8 @@ public class ItemService {
     }
 
     // 모든 Item 조회
-    public List<Item> findAll() {
-        return itemMapper.findAll();
+    public List<Item> findAll(String category) {
+        return itemMapper.findAll(category);
     }
 
     // Item 조회
