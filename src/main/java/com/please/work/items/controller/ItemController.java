@@ -37,9 +37,9 @@ public class ItemController {
 
     // 모든 아이템 조회
     @Operation(summary = "모든 아이템 조회", description = "모든 아이템을 조회합니다.")
-    @GetMapping("/")
-    public ResponseEntity<List<Item>> findAll() {
-        List<Item> items = itemService.findAll();
+    @GetMapping
+    public ResponseEntity<List<Item>> findAll(@RequestParam(required = false) String category) {
+        List<Item> items = itemService.findAll(category);
         return ResponseEntity.ok(items);
     }
 

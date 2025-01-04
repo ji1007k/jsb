@@ -3,14 +3,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.please.work.items.mapper.ItemMapper">
-    <!-- id로 Item 조회 => 간단한 쿼리는 어노테이션 사용. -->
-    <!--<select id="findById" parameterType="long" resultType="com.please.work.items.dto.Item">
-        SELECT id, name, description, price
+    <!-- Item 전체 조회 -->
+    <select id="findAll" resultType="com.please.work.items.dto.Item">
+        SELECT *
         FROM items
-        WHERE id = #{id}
-    </select>-->
+        <where>
+            <if test="category != null and category != ''">
+                AND category = #{category}
+            </if>
+        </where>
+        ORDER BY category, id
+    </select>
 
-<!--    TODO + 썸네일 저장-->
     <!-- Item 추가 -->
     <!-- useGeneratedKeys="true" keyProperty="id" : 자동 생성된 키를 사용하고, keyProperty에 지정된 프로퍼티에 저장 -->
     <insert id="insertItem"

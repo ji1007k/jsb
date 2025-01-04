@@ -63,10 +63,21 @@ export default class ItemList {
     }
 
     initEvent() {
-        
-        // TODO 검색
-        // document.querySelector('#item-list #search-button')
-        //     .addEventListener('click', this.onSearchButtonClick.bind(this));
+
+        // TODO 검색 옵션 스타일 수정 (활성화/비활성화)
+        // 검색
+        const optionBtns = document.querySelectorAll(".search-options .badge-btn");
+        optionBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // 모든 버튼에서 active 클래스 제거
+                optionBtns.forEach((btn) => btn.classList.remove("active"));
+                // 클릭된 버튼에 active 클래스 추가
+                e.target.classList.add("active");
+
+                searchOption.category = btn.innerText;
+                this.initData();
+            });
+        });
 
         // 아이템 등록
         document.querySelector("#item-add-btn").addEventListener('click', () => {
@@ -94,8 +105,13 @@ export default class ItemList {
     }
 
     async getDatas() {
+        const queryString = new URLSearchParams(searchOption).toString();
+
         try {
-            const response = await fetch('/items/');
+            const response = await fetch(`/items?${queryString}`, {
+                method: 'GET'
+            });
+
             if (!response.ok) {
                 throw new Error('Failed to load data');
             }

@@ -18,8 +18,8 @@ public class ItemService {
     }
 
     // 모든 Item 조회
-    public List<Item> findAll() {
-        return itemMapper.findAll();
+    public List<Item> findAll(String category) {
+        return itemMapper.findAll(category);
     }
 
     // Item 조회
