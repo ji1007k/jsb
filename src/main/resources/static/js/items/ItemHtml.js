@@ -3,7 +3,7 @@
  */
 
 // 아이템 수정화면 HTML
-export function makeItemUptHtml() {
+export function makeItemFormHtml() {
     return `
     <div class="w-100 bg-opacity-70 p-0 rounded-lg">
         <table class="table table-borderless mb-0 align-middle text-white">
@@ -18,15 +18,19 @@ export function makeItemUptHtml() {
             <tbody>
                 <tr>
                     <td><label for="name" class="">이름</label></td>
-                    <td colspan="3"><input type="text" class="form-control" id="name" name="name" value="목도"></td>
+                    <td colspan="3"><input type="text" class="form-control" id="name" name="name" value=""></td>
+                </tr>
+                <tr>
+                    <td><label for="category" class="">카테고리</label></td>
+                    <td colspan="3"><input type="text" class="form-control" id="category" name="category" value=""></td>
                 </tr>
                 <tr>
                     <td><label for="durability" class="">내구성</label></td>
-                    <td colspan="3"><input type="text" class="form-control" id="durability" name="durability" value="1000 / 1000 (100%)"></td>
+                    <td colspan="3"><input type="text" class="form-control" id="durability" name="durability" value=""></td>
                 </tr>
                 <tr>
                     <td><label for="destruction" class="">파괴력</label></td>
-                    <td colspan="3"><input type="text" class="form-control" id="destruction" name="destruction" value="S: 5m10, L: 5m10"></td>
+                    <td colspan="3"><input type="text" class="form-control" id="destruction" name="destruction" value=""></td>
                 </tr>
                 <tr>
                     <td><label for="weapon" class="">무장</label></td>
@@ -38,19 +42,19 @@ export function makeItemUptHtml() {
                     <td><label for="dam" class="">Dam</label></td>
                     <td><input type="number" class="form-control" id="dam" name="dam" value="0"></td>
                     <td><label for="job" class="">직업</label></td>
-                    <td><input type="text" class="form-control" id="job" name="job" value="공용"></td>
+                    <td><input type="text" class="form-control" id="job" name="job" value="도사"></td>
                 </tr>
                 <tr>
                     <td><label for="level" class="">레벨</label></td>
-                    <td><input type="text" class="form-control" id="level" name="level" value="0"></td>
+                    <td><input type="text" class="form-control" id="level" name="level" value="0" min="0" max="99"></td>
                     <td><label for="strengthLimit" class="">힘 제한</label></td>
-                    <td><input type="number" class="form-control" id="strengthLimit" name="strengthLimit" value="0"></td>
+                    <td><input type="number" class="form-control" id="strengthLimit" name="strengthLimit" value="0" min="0"></td>
                 </tr>
                 <tr>
                     <td><label for="agilityLimit" class="">민첩 제한</label></td>
-                    <td><input type="number" class="form-control" id="agilityLimit" name="agilityLimit" value="0"></td>
+                    <td><input type="number" class="form-control" id="agilityLimit" name="agilityLimit" value="0" min="0"></td>
                     <td><label for="intellectLimit" class="">지력 제한</label></td>
-                    <td><input type="number" class="form-control" id="intellectLimit" name="intellectLimit" value="0"></td>
+                    <td><input type="number" class="form-control" id="intellectLimit" name="intellectLimit" value="0" min="0"></td>
                 </tr>
                 <tr>
                     <td><label for="repairable" class="">수리</label></td>
@@ -77,12 +81,12 @@ export function makeItemUptHtml() {
                         </div>
                     </td>
                     <td><label for="price" class="">가격</label></td>
-                    <td><input type="number" class="form-control" id="price" name="price" value="10"></td>
+                    <td><input type="number" class="form-control" id="price" name="price" value="0" min="0"></td>
                 </tr>
                 <tr>
                     <td colspan="4">
                         <label for="description" class="form-label">설명</label>
-                        <textarea class="form-control" id="description" name="description" rows="3">가장 기본적인 무기이지만 풍진목을 구하여 대장간에 가면 목도'참으로 강화 가능</textarea>
+                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
                     </td>
                 </tr>
             </tbody>

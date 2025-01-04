@@ -12,7 +12,7 @@ import java.util.List;
 public interface ItemMapper {
 
     // 모든 Item 조회
-    @Select("SELECT * FROM items")
+    @Select("SELECT * FROM items ORDER BY id, category")
     List<Item> findAll();
 
     // Item 조회. @Param을 사용하여 파라미터 명시

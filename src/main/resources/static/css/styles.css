@@ -108,3 +108,15 @@ p {
     width: 3em;
     height: 1.5em;
 }
+
+#item-form .item-image img {
+    height: 70px; width: 70px; object-fit: contain;
+}
+
+#item-form .item-image #item-img-upload-label {
+    top: -15px;
+    right: -15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}

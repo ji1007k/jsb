@@ -1,4 +1,5 @@
 import ItemDetail from './itemDetail.js';
+import ItemAdd from './ItemAdd.js';
 import { append } from '../utils/UIUtil.js';
 
 const searchOption = {
@@ -62,8 +63,15 @@ export default class ItemList {
     }
 
     initEvent() {
+        
+        // TODO 검색
         // document.querySelector('#item-list #search-button')
         //     .addEventListener('click', this.onSearchButtonClick.bind(this));
+
+        // 아이템 등록
+        document.querySelector("#item-add-btn").addEventListener('click', () => {
+            new ItemAdd();
+        });
     }
 
 
