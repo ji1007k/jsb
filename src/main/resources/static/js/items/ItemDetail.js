@@ -5,8 +5,9 @@ import {makeItemDtlHtml, makeItemFormHtml} from './ItemHtml.js';
  * 아이템 상세/수정
  */
 export default class ItemDetail {
-    constructor(data, isEditMode = false) {
+    constructor(data, parent, isEditMode = false) {
         this.data = data;
+        this.parent = parent;
         this.isEditMode = isEditMode;
 
         this.MODAL = null;
@@ -61,10 +62,9 @@ export default class ItemDetail {
                 e.preventDefault();
 
                 this.isEditMode = !this.isEditMode;
+                const tarSelectors = ['.edit-btns', '.detail-btns', '.delete-btn', '#item-img-upload-label']
+                tarSelectors.forEach(sltr => this.modalArea.querySelector(sltr).classList.toggle('d-none'));
                 this.initData();
-
-                this.modalArea.querySelector('.edit-btns').classList.toggle('d-none');
-                this.modalArea.querySelector('.detail-btns').classList.toggle('d-none');
             }
 
             btn.removeEventListener('click', toggleEditMode);
@@ -75,10 +75,13 @@ export default class ItemDetail {
             e.stopPropagation();
             e.preventDefault();
 
-            // TODO 수정된 데이터 저장
-            console.log('Save button clicked');
-
             this.saveData();
+        });
+
+        this.modalArea.querySelector('.delete-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+
+            this.deleteData();
         });
     }
 
@@ -143,15 +146,35 @@ export default class ItemDetail {
                 throw new Error('Failed to save data');
             }
 
-            this.data = response.json();
-            this.isEditMode = false;
-            this.initData();
+            return response.json();
         }).then(result => {
-            console.log(result);
+            this.data = result;
+
+            this.isEditMode = !this.isEditMode;
+            const tarSelectors = ['.edit-btns', '.detail-btns', '.delete-btn', '#item-img-upload-label']
+            tarSelectors.forEach(sltr => this.modalArea.querySelector(sltr).classList.toggle('d-none'));
+
+            this.initData();
+
+            // 목록 업데이트
+            this.parent.initData();
         }).catch(error => {
             console.error('Error saving data:', error);
             this.MODAL.hide();
         });
+    }
+
+    async deleteData() {
+        const response = await fetch(`items/${this.data.id}`, {
+            method: 'DELETE'
+        });
+
+        if (! response.ok) {
+            throw new Error('Failed to delete data');
+        }
+
+        this.parent.initData();
+        this.MODAL.hide();
     }
 
 

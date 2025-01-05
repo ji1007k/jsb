@@ -81,7 +81,7 @@ export default class ItemList {
 
         // 아이템 등록
         document.querySelector("#item-add-btn").addEventListener('click', () => {
-            new ItemAdd();
+            new ItemAdd(this);
         });
     }
 
@@ -188,7 +188,7 @@ export default class ItemList {
                 el.querySelector('.show-info')
                     .addEventListener('click', async () => {
                         const latestData = await this.findDataById(data.id);
-                        new ItemDetail(latestData);
+                        new ItemDetail(latestData, this);
                     });
             }
         }

@@ -68,30 +68,18 @@ public class ItemController {
     })
 //    @PatchMapping(value = "/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping("/")
-    public ResponseEntity<Item> insertItem(@RequestParam("item") String itemJson,
+    public ResponseEntity<String> insertItem(@RequestParam("item") String itemJson,
                                            @RequestParam(value = "file", required = false) MultipartFile file) {
 
-        String filePath = "";
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             Item item = objectMapper.readValue(itemJson, Item.class);
 
-            if (file != null && !file.isEmpty()) {
-                // TODO 기존 이미지 삭제
-                //  ...
-
-                // 파일 업로드 후 경로를 imageUrl에 설정
-                filePath = FileUtil.uploadFile(file);
-                item.setImageUrl(filePath); // imageUrl 필드에 파일 경로 설정
-            }
-
-            itemService.insertItem(item);
-            return ResponseEntity.ok(null);
+            itemService.insertItem(item, file);
+            return ResponseEntity.ok("아이템 등록 성공");
         } catch (JsonProcessingException e) {
-            FileUtil.deleteFile(filePath);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         } catch (Exception e) {
-            FileUtil.deleteFile(filePath);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
@@ -102,28 +90,16 @@ public class ItemController {
                                            @RequestParam("item") String itemJson,
                                            @RequestParam(value = "file", required = false) MultipartFile file) {
 
-        String filePath = "";
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             Item item = objectMapper.readValue(itemJson, Item.class);
             item.setId(Long.parseLong(id));
 
-            if (file != null && !file.isEmpty()) {
-                // TODO 기존 이미지 삭제
-                //  ...
-
-                // 파일 업로드 후 경로를 imageUrl에 설정
-                filePath = FileUtil.uploadFile(file);
-                item.setImageUrl(filePath); // imageUrl 필드에 파일 경로 설정
-            }
-
-            Item updatedItem = itemService.updateItem(item);
+            Item updatedItem = itemService.updateItem(item, file);
             return ResponseEntity.ok(updatedItem);
-        } catch (IOException e) {
-            FileUtil.deleteFile(filePath);
+        } catch (IOException e) {   // JSON 파싱 실패
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        } catch (Exception e) {
-            FileUtil.deleteFile(filePath);
+        } catch (Exception e) { // 기타 예외
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
@@ -131,8 +107,8 @@ public class ItemController {
     // TODO
     @Operation(summary = "아이템 삭제", description = "아이템을 삭제합니다.")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Integer> deleteById(@PathVariable Long id) {
-        int result = itemService.deleteById(id);
-        return ResponseEntity.ok(result);
+    public ResponseEntity<String> deleteById(@PathVariable Long id) {
+        itemService.deleteById(id);
+        return ResponseEntity.ok("아이템 삭제 성공");
     }
 }
