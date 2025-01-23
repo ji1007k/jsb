@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.please.work.notices.mapper.NoticeMapper">
+
+    <select id="getAllNotices" resultType="com.please.work.notices.dto.Notice">
+        SELECT *
+        FROM notices
+        <where>
+            <if test="category != null and category != ''">
+                <if test="category.equals('title')">
+                    AND title ILIKE '%' || #{keyword} || '%'
+                </if>
+                <if test="category.equals('content')">
+                    AND content ILIKE '%' || #{keyword} || '%'
+                </if>
+                <if test="category.equals('all')">
+                    AND (title ILIKE '%' || #{keyword} || '%')
+                        OR (content ILIKE '%' || #{keyword} || '%')
+                </if>
+            </if>
+        </where>
+        ORDER BY id
+    </select>
+
+    <insert id="insertNotice" parameterType="com.please.work.notices.dto.Notice"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO notices
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            title,
+            <if test="content != null">content,</if>
+            created_by,
+            created_date,
+            <if test="status != null">status,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{title},
+            <if test="content != null">#{content},</if>
+            #{createdBy},
+            CURRENT_TIMESTAMP,
+            <if test="status != null">#{status},</if>
+        </trim>
+
+    </insert>
+
+    <!--<select id="getNoticeById" parameterType="com.please.work.notices.dto.Notice">
+        SELECT *
+        FROM notices
+        WHERE 1=1
+            AND id = #{id}
+    </select>-->
+
+    <update id="updateNotice" parameterType="com.please.work.notices.dto.Notice">
+        UPDATE notices
+        <set>
+            <trim suffixOverrides=",">
+                <if test="title != null">title = #{title},</if>
+                <if test="content != null">content = #{content},</if>
+                <if test="status != null">status = #{status},</if>
+                updated_by = #{updatedBy},
+                updated_date = CURRENT_TIMESTAMP
+            </trim>
+        </set>
+    </update>
+</mapper>
