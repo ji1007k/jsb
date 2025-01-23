@@ -2,7 +2,6 @@ package com.please.work.items.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.please.work.common.utils.FileUtil;
 import com.please.work.items.dto.Item;
 import com.please.work.items.service.ItemService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,27 +37,14 @@ public class ItemController {
     // 모든 아이템 조회
     @Operation(summary = "모든 아이템 조회", description = "모든 아이템을 조회합니다.")
     @GetMapping
-    public ResponseEntity<List<Item>> findAll(@RequestParam(required = false) String category) {
-        List<Item> items = itemService.findAll(category);
+    public ResponseEntity<List<Item>> getAllItems(@RequestParam(required = false) String category) {
+        List<Item> items = itemService.getAllItems(category);
         return ResponseEntity.ok(items);
     }
 
-    // 아이템 ID로 조회
-    @Operation(summary = "아이템 조회", description = "파라미터로 받은 id에 해당하는 아이템을 조회합니다.")
-    @Parameter(name = "id", description = "조회할 아이템 ID", required = true)
-    @GetMapping("/{id}")
-    public ResponseEntity<Item> findById(@PathVariable Long id) {
-        Item item = itemService.findById(id);
-        if (item != null) {
-            return ResponseEntity.ok(item);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    // 아이템 삽입
+    // 아이템 등록
     // 요청 본문에 JSON 형식으로 아이템 데이터를 받을 때 @RequestBody를 사용
-    @Operation(summary = "아이템 삽입", description = "아이템을 삽입합니다.")
+    @Operation(summary = "아이템 등록", description = "아이템을 등록합니다.")
     @Parameters({
             @Parameter(name = "name", description = "이름", example = "아이템 이름"),
             @Parameter(name = "description", description = "설명", example = "아이템 설명"),
@@ -67,7 +53,7 @@ public class ItemController {
             @Parameter(name = "createdBy", description = "등록자", example = "JIKIM")
     })
 //    @PatchMapping(value = "/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<String> insertItem(@RequestParam("item") String itemJson,
                                            @RequestParam(value = "file", required = false) MultipartFile file) {
 
@@ -81,6 +67,19 @@ public class ItemController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    // 아이템 ID로 조회
+    @Operation(summary = "아이템 조회", description = "파라미터로 받은 id에 해당하는 아이템을 조회합니다.")
+    @Parameter(name = "id", description = "조회할 아이템 ID", required = true)
+    @GetMapping("/{id}")
+    public ResponseEntity<Item> findById(@PathVariable Long id) {
+        Item item = itemService.findById(id);
+        if (item != null) {
+            return ResponseEntity.ok(item);
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -104,7 +103,6 @@ public class ItemController {
         }
     }
 
-    // TODO
     @Operation(summary = "아이템 삭제", description = "아이템을 삭제합니다.")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteById(@PathVariable Long id) {

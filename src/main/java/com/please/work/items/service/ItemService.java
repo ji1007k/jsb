@@ -20,7 +20,7 @@ public class ItemService {
     }
 
     // 모든 Item 조회
-    public List<Item> findAll(String category) {
+    public List<Item> getAllItems(String category) {
         return itemMapper.findAll(category);
     }
 

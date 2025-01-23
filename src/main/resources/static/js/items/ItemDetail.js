@@ -151,7 +151,7 @@ export default class ItemDetail {
             this.data = result;
 
             this.isEditMode = !this.isEditMode;
-            const tarSelectors = ['.edit-btns', '.detail-btns', '.delete-btn', '#item-img-upload-label']
+            const tarSelectors = ['.edit-btns', '.detail-btns', '.delete-btn', '#item-img-upload-label'];
             tarSelectors.forEach(sltr => this.modalArea.querySelector(sltr).classList.toggle('d-none'));
 
             this.initData();

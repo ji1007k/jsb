@@ -84,7 +84,7 @@ export default class ItemAdd {
             formData.append('file', file);
         }
 
-        fetch(`/items/`, {
+        fetch(`/items`, {
             method: 'POST',
             body: formData
         }).then(response => {
