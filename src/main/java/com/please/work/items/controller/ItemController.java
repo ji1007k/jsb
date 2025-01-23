@@ -2,7 +2,6 @@ package com.please.work.items.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.please.work.common.utils.FileUtil;
 import com.please.work.items.dto.Item;
 import com.please.work.items.service.ItemService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,9 +37,37 @@ public class ItemController {
     // 모든 아이템 조회
     @Operation(summary = "모든 아이템 조회", description = "모든 아이템을 조회합니다.")
     @GetMapping
-    public ResponseEntity<List<Item>> findAll(@RequestParam(required = false) String category) {
-        List<Item> items = itemService.findAll(category);
+    public ResponseEntity<List<Item>> getAllItems(@RequestParam(required = false) String category) {
+        List<Item> items = itemService.getAllItems(category);
         return ResponseEntity.ok(items);
+    }
+
+    // 아이템 등록
+    // 요청 본문에 JSON 형식으로 아이템 데이터를 받을 때 @RequestBody를 사용
+    @Operation(summary = "아이템 등록", description = "아이템을 등록합니다.")
+    @Parameters({
+            @Parameter(name = "name", description = "이름", example = "아이템 이름"),
+            @Parameter(name = "description", description = "설명", example = "아이템 설명"),
+            @Parameter(name = "price", description = "가격", example = "0"),
+            @Parameter(name = "category", description = "분류", example = "무기"),
+            @Parameter(name = "createdBy", description = "등록자", example = "JIKIM")
+    })
+//    @PatchMapping(value = "/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping
+    public ResponseEntity<String> insertItem(@RequestParam("item") String itemJson,
+                                           @RequestParam(value = "file", required = false) MultipartFile file) {
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Item item = objectMapper.readValue(itemJson, Item.class);
+
+            itemService.insertItem(item, file);
+            return ResponseEntity.ok("아이템 등록 성공");
+        } catch (JsonProcessingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     // 아이템 ID로 조회
@@ -56,83 +83,30 @@ public class ItemController {
         }
     }
 
-    // 아이템 삽입
-    // 요청 본문에 JSON 형식으로 아이템 데이터를 받을 때 @RequestBody를 사용
-    @Operation(summary = "아이템 삽입", description = "아이템을 삽입합니다.")
-    @Parameters({
-            @Parameter(name = "name", description = "이름", example = "아이템 이름"),
-            @Parameter(name = "description", description = "설명", example = "아이템 설명"),
-            @Parameter(name = "price", description = "가격", example = "0"),
-            @Parameter(name = "category", description = "분류", example = "무기"),
-            @Parameter(name = "createdBy", description = "등록자", example = "JIKIM")
-    })
-//    @PatchMapping(value = "/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PostMapping("/")
-    public ResponseEntity<Item> insertItem(@RequestParam("item") String itemJson,
-                                           @RequestParam(value = "file", required = false) MultipartFile file) {
-
-        String filePath = "";
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            Item item = objectMapper.readValue(itemJson, Item.class);
-
-            if (file != null && !file.isEmpty()) {
-                // TODO 기존 이미지 삭제
-                //  ...
-
-                // 파일 업로드 후 경로를 imageUrl에 설정
-                filePath = FileUtil.uploadFile(file);
-                item.setImageUrl(filePath); // imageUrl 필드에 파일 경로 설정
-            }
-
-            itemService.insertItem(item);
-            return ResponseEntity.ok(null);
-        } catch (JsonProcessingException e) {
-            FileUtil.deleteFile(filePath);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        } catch (Exception e) {
-            FileUtil.deleteFile(filePath);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-    }
-
     @Operation(summary = "아이템 업데이트", description = "아이템을 업데이트합니다.")
     @PutMapping("/{id}")
     public ResponseEntity<Item> updateItem(@PathVariable String id,
                                            @RequestParam("item") String itemJson,
                                            @RequestParam(value = "file", required = false) MultipartFile file) {
 
-        String filePath = "";
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             Item item = objectMapper.readValue(itemJson, Item.class);
             item.setId(Long.parseLong(id));
 
-            if (file != null && !file.isEmpty()) {
-                // TODO 기존 이미지 삭제
-                //  ...
-
-                // 파일 업로드 후 경로를 imageUrl에 설정
-                filePath = FileUtil.uploadFile(file);
-                item.setImageUrl(filePath); // imageUrl 필드에 파일 경로 설정
-            }
-
-            Item updatedItem = itemService.updateItem(item);
+            Item updatedItem = itemService.updateItem(item, file);
             return ResponseEntity.ok(updatedItem);
-        } catch (IOException e) {
-            FileUtil.deleteFile(filePath);
+        } catch (IOException e) {   // JSON 파싱 실패
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        } catch (Exception e) {
-            FileUtil.deleteFile(filePath);
+        } catch (Exception e) { // 기타 예외
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
-    // TODO
     @Operation(summary = "아이템 삭제", description = "아이템을 삭제합니다.")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Integer> deleteById(@PathVariable Long id) {
-        int result = itemService.deleteById(id);
-        return ResponseEntity.ok(result);
+    public ResponseEntity<String> deleteById(@PathVariable Long id) {
+        itemService.deleteById(id);
+        return ResponseEntity.ok("아이템 삭제 성공");
     }
 }

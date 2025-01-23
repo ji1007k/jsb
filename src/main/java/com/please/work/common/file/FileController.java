@@ -11,11 +11,15 @@ import java.nio.file.Paths;
 
 @RestController
 public class FileController {
+    private static final String UPLOAD_DIR = "uploads";
+    private final Path fileStorageLocation = Paths.get(UPLOAD_DIR);
 
-    private final Path fileStorageLocation = Paths.get("uploads");
-
-    @GetMapping("/uploads/{filename}")
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) throws Exception {
+    /**
+     * 파일 가져오기
+     * @param filename  uploads 폴더 이후 경로 포함한 파일명
+     */
+    @GetMapping("/{filename}")
+    public ResponseEntity<Resource> getFile(@PathVariable String filename) throws Exception {
         Path filePath = fileStorageLocation.resolve(filename).normalize();
         Resource resource = new UrlResource(filePath.toUri());
 

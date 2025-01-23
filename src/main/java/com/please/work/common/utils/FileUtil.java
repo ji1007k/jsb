@@ -35,7 +35,7 @@ public class FileUtil {
         // 파일을 저장
         Files.write(path, file.getBytes());
 
-        return UPLOAD_DIR + fileName; // 업로드된 파일 이름 반환
+        return fileName; // 업로드된 파일 이름 반환
     }
 
     public static String generateUniqueFileName(String originalFileName) {
@@ -58,7 +58,7 @@ public class FileUtil {
     // 파일을 삭제하는 메소드
     public static void deleteFile(String filePath) {
         try {
-            Files.deleteIfExists(Paths.get(filePath));
+            Files.deleteIfExists(Paths.get(UPLOAD_DIR + filePath));
         } catch (IOException e) {
             e.printStackTrace();
         }

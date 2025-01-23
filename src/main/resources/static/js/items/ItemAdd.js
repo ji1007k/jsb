@@ -3,8 +3,9 @@ import {append, getFormData} from "../utils/UIUtil.js";
 
 
 export default class ItemAdd {
-    constructor() {
+    constructor(parent) {
         console.log("ItemAdd instance created");
+        this.parent = parent;
 
         this.MODAL = null;
         this.modalArea = document.getElementById('modalSheet');
@@ -36,8 +37,8 @@ export default class ItemAdd {
         target.innerHTML = '';
         append(makeItemFormHtml(), target);
 
-        this.modalArea.querySelector('.edit-btns').classList.toggle('d-none');
-        this.modalArea.querySelector('.detail-btns').classList.toggle('d-none');
+        const tarSelectors = ['.edit-btns', '.detail-btns', '#item-img-upload-label']
+        tarSelectors.forEach(sltr => this.modalArea.querySelector(sltr).classList.toggle('d-none'));
         this.MODAL.show();
     }
 
@@ -83,7 +84,7 @@ export default class ItemAdd {
             formData.append('file', file);
         }
 
-        fetch(`/items/`, {
+        fetch(`/items`, {
             method: 'POST',
             body: formData
         }).then(response => {
@@ -91,7 +92,8 @@ export default class ItemAdd {
                 throw new Error('Failed to save data');
             }
         }).then(result => {
-            console.log(result);
+            // 목록 업데이트
+            this.parent.initData();
             this.MODAL.hide();
         }).catch(error => {
             console.error('Error saving data:', error);
