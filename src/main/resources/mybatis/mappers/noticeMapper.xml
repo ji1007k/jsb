@@ -63,5 +63,7 @@
                 updated_date = CURRENT_TIMESTAMP
             </trim>
         </set>
+        WHERE 1=1
+            AND id = #{id}
     </update>
 </mapper>

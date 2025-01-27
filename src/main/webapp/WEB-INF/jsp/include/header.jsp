@@ -22,4 +22,19 @@
             </ul>
         </div>
     </div>
+    <nav class="py-2 bg-light border-bottom">
+        <div class="container d-flex flex-wrap">
+            <ul class="nav me-auto">
+                <li class="nav-item" id="nav-item-home"><a href="#" class="nav-link link-dark px-2 active" aria-current="page">Home</a></li>
+                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">거래소</a></li>
+                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">그룹찾기</a></li>
+                <li class="nav-item" id="nav-item-items"><a href="#" class="nav-link link-dark px-2">아이템</a></li>
+                <li class="nav-item" id="menu-item-notices"><a href="#" class="nav-link link-dark px-2">공지사항</a></li>
+            </ul>
+            <ul class="nav">
+                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Login</a></li>
+                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Sign up</a></li>
+            </ul>
+        </div>
+    </nav>
 </header>

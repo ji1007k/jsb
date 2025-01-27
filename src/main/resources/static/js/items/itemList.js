@@ -1,7 +1,8 @@
 import ItemDetail from './itemDetail.js';
 import ItemAdd from './ItemAdd.js';
-import { append } from '../utils/UIUtil.js';
+import * as UIUtil from "../utils/UIUtil.js";
 
+// 컴포 초기화해도 유지됨
 const searchOption = {
     category: '무기',
 }
@@ -10,9 +11,15 @@ const searchOption = {
  * 아이템 목록
  */
 export default class ItemList {
+    COMPONENT_AREA = document.querySelector('#item-area');
+
     constructor() {
         console.log("ItemList instance created");
         this.init();
+    }
+
+    show() {
+        UIUtil.show(this.COMPONENT_AREA);
     }
 
     // public 메서드
@@ -52,11 +59,9 @@ export default class ItemList {
             const elementToInsert = fragment.firstElementChild;
 
             // 특정 위치에 element를 삽입
-            const targetElement = document.getElementById('item-area');
-
             // 여기서 'beforeend'로 삽입할 경우, targetElement 내부의 마지막 자식으로 삽입
-            targetElement.innerHTML = '';
-            targetElement.insertAdjacentElement('beforeend', elementToInsert);
+            this.COMPONENT_AREA.innerHTML = '';
+            this.COMPONENT_AREA.insertAdjacentElement('beforeend', elementToInsert);
         } catch (error) {
             console.error('Error loading HTML:', error);
         }
@@ -118,7 +123,7 @@ export default class ItemList {
             return await response.json();
         } catch (error) {
             console.error('Error loading data:', error);
-            throw error;
+            return [];
         }
     }
 
@@ -129,7 +134,7 @@ export default class ItemList {
 
 
         function drawData(data) {
-            const el = append(makeItemCardHtml(), targetElement);
+            const el = UIUtil.append(makeItemCardHtml(), targetElement);
             setItemCardEvent.bind(this)();
 
 
@@ -144,8 +149,8 @@ export default class ItemList {
                     </div>
             
                     <!-- 아이템 정보 -->
-                    <div class="item-info">
-                        <h5>아이템 정보</h5>
+                    <div class="item-info px-2">
+<!--                        <h5>아이템 정보</h5>-->
                         <p class="text-muted">내구성: ${data.durability}</p>
                         <p class="text-muted">파괴력: ${data.destruction}</p>
                         <p class="text-muted">직업 제한: ${data.job}</p>
@@ -157,10 +162,10 @@ export default class ItemList {
                     </div>
             
                     <!-- 드랍 몬스터 -->
-                    <!--<div class="monster-list mt-5">
+                    <div class="monster-list mx-3">
                         <div class="section-title">드랍 몬스터</div>
                         <div class="row mt-3">
-                            &lt;!&ndash; 몬스터 사진 &ndash;&gt;
+                            <!-- 몬스터 사진 -->
                             <div class="col">
                                 <div class="monster-card">
                                     <img src="https://homsuwixxppzxjkr.public.blob.vercel-storage.com/monsters/9e2e28c5-c0dc-40ef-9c17-2025a1566fd1-9OsUjJAK8R1AROWTVFzNLGvKpCWUZd.gif" alt="적호" class="monster-image">
@@ -180,7 +185,7 @@ export default class ItemList {
                                 </div>
                             </div>
                         </div>
-                    </div>-->
+                    </div>
                 </div>`;
             }
 

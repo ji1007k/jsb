@@ -1,0 +1,52 @@
+<form id="notice-form">
+    <div class="container my-5">
+        <div class="card">
+            <table class="table table-bordered align-middle notice-info shadow-sm mb-0">
+                <thead class="table-primary text-center">
+                <colgroup>
+                    <col style="width: 20%;">
+                    <col style="width: 30%;">
+                    <col style="width: 20%;">
+                    <col style="width: 30%;">
+                </colgroup>
+                </thead>
+                <tbody>
+                <!-- 제목 -->
+                <tr>
+                    <th class="text-center bg-light">제목</th>
+                    <td colspan="3">
+                        <input type="text" name="title" class="form-control" placeholder="제목을 입력하세요">
+                    </td>
+                </tr>
+
+                <!-- 작성자와 작성일자 -->
+                <tr>
+                    <th class="text-center bg-light">작성자</th>
+                    <td>
+                        <input type="text" name="createdBy" class="form-control" value="관리자" readonly>
+                    </td>
+                    <th class="text-center bg-light">작성일자</th>
+                    <td>
+                        <input type="text" name="createdDate" class="form-control" value="2025-01-27" readonly>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="card-body">
+                <p>여기에 공지사항의 상세 내용이 들어갑니다. 이 텍스트는 예제 텍스트로, 공지사항의 내용을 작성하세요. 😊</p>
+                <p>추가적인 공지사항 정보를 여기에 적을 수 있습니다.</p>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <div class="edit-btns w-100 d-flex justify-content-between d-none">
+                <button class="btn btn-danger d-none delete-btn">삭제</button>
+                <div class="ml-auto">
+                    <button class="btn btn-primary save-btn">저장</button>
+                    <button class="btn btn-secondary cancel-btn">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
