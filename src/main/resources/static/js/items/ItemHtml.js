@@ -111,9 +111,9 @@ export function makeItemDtlHtml(data) {
                     <div class="d-flex justify-content-between">
                         <p>파괴력</p><p>${data.destruction}</p>
                     </div>
-                    <div class="d-flex justify-content-between">
+                    <!--<div class="d-flex justify-content-between">
                         <p></p><p>${data.destruction}</p>
-                    </div>
+                    </div>-->
                 </div>
     
                 <div class="d-flex justify-content-between mt-3">
