@@ -1,0 +1,47 @@
+<!--<header class="py-3 border-bottom">-->
+<header class="py-3">
+    <div class="container d-flex flex-wrap justify-content-center mb-3">
+        <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
+            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+            <span class="fs-4">클바지지 클론</span>
+        </a>
+        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+            <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+        </form>
+        <div class="dropdown text-end">
+            <div th:if="${user != null}">
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="" alt="mdo" width="32" height="32" class="rounded-circle">
+                </a>
+                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
+                        <p>사용자 정보: [[${user.name}]]</p>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/auth/signout">Sign out</a></li>
+                </ul>
+            </div>
+            <div th:unless="${user != null}">
+<!--                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">-->
+<!--                    <p>로그인되지 않았습니다.</p>-->
+<!--                    <li><a class="dropdown-item" href="/auth/signin">Sign In</a></li>-->
+<!--                    <li><a class="dropdown-item" href="/auth/signup">Sign Up</a></li>-->
+<!--                </ul>-->
+                <ul class="nav">
+                    <li class="nav-item"><a href="/auth/signin" class="btn btn-primary">Sign In</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <nav class="py-2 bg-light border-bottom">
+        <div class="container d-flex flex-wrap">
+            <ul class="nav me-auto">
+                <li class="nav-item" id="nav-item-home"><a href="#" class="nav-link link-dark px-2 active" aria-current="page">Home</a></li>
+                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">거래소</a></li>
+                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">그룹찾기</a></li>
+                <li class="nav-item" id="nav-item-items"><a href="#" class="nav-link link-dark px-2">아이템</a></li>
+                <li class="nav-item" id="menu-item-notices"><a href="#" class="nav-link link-dark px-2">공지사항</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
