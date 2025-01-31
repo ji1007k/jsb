@@ -120,30 +120,6 @@
 
 	<build>
 		<plugins>
-			<!-- webapp 폴더를 포함시키는 설정 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.1.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<!-- 모든 파일을 target/classes/webapp 폴더로 복사 -->
-							<outputDirectory>${project.build.directory}/classes</outputDirectory>
-							<resources>
-								<resource>
-									<!-- src/main/webapp 폴더 전체를 복사 -->
-									<directory>src/main/webapp</directory>
-									<filtering>false</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -173,6 +149,30 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<!-- webapp 폴더를 포함시키는 설정 -->
+			<!--<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							&lt;!&ndash; 모든 파일을 target/classes/webapp 폴더로 복사 &ndash;&gt;
+							<outputDirectory>${project.build.directory}/classes</outputDirectory>
+							<resources>
+								<resource>
+									&lt;!&ndash; src/main/webapp 폴더 전체를 복사 &ndash;&gt;
+									<directory>src/main/webapp</directory>
+									<filtering>false</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>-->
 		</plugins>
 	</build>
 
