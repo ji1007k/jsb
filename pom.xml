@@ -99,13 +99,6 @@
 			<version>1.70</version>
 		</dependency>
 
-		<!-- spring boot 내장톰캣에서 JSP를 사용하기 위한 의존성 -->
-<!--		<dependency>-->
-<!--			<groupId>org.apache.tomcat.embed</groupId>-->
-<!--			<artifactId>tomcat-embed-jasper</artifactId>-->
-<!--			<version>11.0.1</version>-->
-<!--		</dependency>-->
-
 
 		<!-- 편의 및 보조 라이브러리 ========================== -->
 		<dependency>
