@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-
-<html lang="ko" data-bs-theme="light">
+<!DOCTYPE html>
+<html lang="ko" data-bs-theme="light" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,14 +14,16 @@
     <script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
 
 
-    <script type="module">
-        // TODO JS 파일 캐싱 문제 해결
-        // import App from './js/App.js?version=1.0';
+<!--    TODO JS 파일 캐싱 문제 해결-->
+<!--    import App from './js/App.js?version=1.0';-->
+    <script type="module" th:inline="javascript">
         import App from '/static/js/App.js';
 
         window.addEventListener('DOMContentLoaded', () => {
             try {
-                const app = new App();
+                // 타임리프에서 user 객체를 JSON 형식으로 삽입
+                const userInfo = [[${user} != null ? ${user} : '{}']];
+                const app = new App(userInfo);
                 app.init();
             } catch (error) {
                 console.error("Error during app initialization:", error);
@@ -45,7 +46,7 @@
     </svg>
     <main>
         <!-- header -->
-        <jsp:include page="include/header.jsp" />
+        <div th:replace="~{main/header.html}"></div>
 
         <!-- content -->
 
@@ -56,7 +57,7 @@
 
 
         <!-- footer -->
-        <jsp:include page="include/footer.jsp" />
+        <div th:replace="~{main/footer.html}"></div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

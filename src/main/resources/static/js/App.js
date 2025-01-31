@@ -4,10 +4,12 @@ import NoticeList from "./notices/noticeList.js";
 
 // App 클래스
 export default class App {
-    activeNavItem = new ItemList(); // 기본 활성화 메뉴 : 아이템 목록
-
-    constructor() {
+    constructor(userInfo) {
         console.log("App instance created");
+
+        this.activeNavItem = new ItemList(); // 기본 활성화 메뉴 : 아이템 목록
+        this.userInfo = userInfo;
+        console.table(this.userInfo);
     }
 
     // public 메서드 (JavaScript에서 클래스 메서드는 기본적으로 public 접근 수준)
@@ -26,7 +28,7 @@ export default class App {
     initNavigationEvent() {
         const navItems = document.querySelectorAll('.nav-item');
         navItems.forEach(item => {
-            item.addEventListener('click', function() {
+            item.addEventListener('click', () => {
                 console.log(item.id);
 
                 // 화면 초기화

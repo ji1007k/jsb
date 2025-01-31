@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.please.work.auth.mapper.UserMapper">
+
+
+    <!-- 사용자 ID 중복 체크 -->
+    <!--<select id="findBySocialId" parameterType="String" resultType="com.please.work.auth.dto.User">
+        SELECT * FROM users WHERE social_id = #{socialId}
+    </select>-->
+
+    <!-- 사용자 정보 저장 -->
+    <insert id="insertUser" parameterType="com.please.work.auth.dto.User">
+        INSERT INTO users (social_id, password, email, name, phone_number, image_url, status)
+        VALUES (#{socialId}, #{password}, #{email}, #{name}, #{phoneNumber}, #{imageUrl}, #{status})
+    </insert>
+
+
+
+</mapper>
